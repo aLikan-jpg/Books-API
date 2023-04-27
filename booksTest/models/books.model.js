@@ -23,3 +23,17 @@ exports.createBook = (bookData) => {
     const book = new Book(bookData);
     return book.save();
 };
+exports.findById = (id) => {
+        return Book.findById(id)
+            .then((result) => {
+                result = result.toJSON();
+                // delete result._id;
+                delete result.__v;
+                return result;
+            })};
+
+// exports.findById = async (id) => {
+//     const r = await Rent.findById(id);
+//     delete r.__v;
+//     return r;
+// };

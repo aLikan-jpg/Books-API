@@ -13,7 +13,4 @@ exports.routesConfig = function (app) {
         BooksMiddleware.hasAuthValidFields,
         BooksController.insert
     ]);
-    app.post('/books/:bookId/rent', [
-        
-    ]);
 };
