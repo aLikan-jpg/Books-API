@@ -19,29 +19,27 @@ exports.findRent = async (bookId) => {
     return await Rent.findOne({bookId: bookId});
 };
 
-// exports.one = (id) => {
-//     return Rent.findOne(id)
-//         .then((result) => {
-//             result = result.toJSON();
-//             // delete result._id;
-//             // delete result.__v;
-//             return result;
-//         })};
-
-// exports.findOne = (id) => {
-//     return Rent.findById(id)
-//         .then((result) => {
-//             result = result.toJSON();
-//             // delete result._id;
-//             // delete result.__v;
-//             return result;
-//         })};
+exports.updateRent = async (Rent) => {
+    Rent.bookId = book._id;
+    Rent.userId = ObjectId(userId);
+    Rent.isRent = true;
+    Rent.rentalDate = new Date();
+    Rent.returnDate = null;
+    await Rent.save();
+};
 
 exports.create = (rentData) => {
     const rent = new Rent(rentData);
+    delete rent.__v;
     return rent.save();
 };
 
-exports.update = async (document, rentData) => {
-    
+exports.update =  (document, rentData) => {
+    const filter = { bookId: document.bookId };
+    const newRent = new Rent(rentData);
+
+    const updatedRent = Rent.findOneAndUpdate(filter, newRent, { 
+        new: true
+    });
+    return updatedRent.save();
 };
