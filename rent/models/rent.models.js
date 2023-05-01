@@ -69,3 +69,20 @@ exports.rent = async (userId, bookId) => {
         { new: true }
     );
 }
+
+exports.getRequestedBooks = (userId) => {
+    return Rent.findOne(
+        { userId: userId },
+        { requestedBooks: 1, _id: 0 }
+    );
+}
+
+exports.getRentedBooks = (userId) => {
+    return Rent.findOne(
+        {
+            userId: userId,
+            'rentedBooks.expirationDate': { $gt: new Date() }
+        },
+        { 'rentedBooks': 1, _id: 0 }
+    ); 
+} 

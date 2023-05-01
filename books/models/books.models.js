@@ -28,9 +28,9 @@ exports.delete = (id) => {
     return Book.findByIdAndDelete(id);
 }
 
-exports.list = (perPage, page) => {
+exports.list = (perPage, page, filter) => {
     return Book
-            .find(null, { __v: 0 })
+            .find(filter, { __v: 0 })
             .limit(perPage)
             .skip(perPage * page);
 };

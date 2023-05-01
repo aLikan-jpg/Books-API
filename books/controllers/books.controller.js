@@ -1,4 +1,5 @@
 const BooksModel = require('../models/books.models');
+const RentModel = require('../../rent/models/rent.models');
 
 exports.insert = async (req, res) => {
     try {
@@ -39,7 +40,7 @@ exports.delete = async (req, res) => {
     }
 };
 
-exports.list =  async (req, res) => {
+exports.list = async (req, res) => {
     let limit = req.query.limit && req.query.limit <= 100 ? parseInt(req.query.limit) : 10;
     let page = 0;
 
@@ -61,6 +62,56 @@ exports.list =  async (req, res) => {
 exports.bookInfo = async (req, res) => {
     try {
         let result = await BooksModel.bookInfo(req.params.bookId)
+        res.status(200).send(result);
+    } catch(err) {
+        res.status(500).send({ error: err });
+    }
+};
+
+exports.listRequested = async (req, res) => {
+    let limit = req.query.limit && req.query.limit <= 100 ? parseInt(req.query.limit) : 10;
+    let page = 0;
+
+    if (req.query) {
+        if (req.query.page) {
+            req.query.page = parseInt(req.query.page);
+            page = Number.isInteger(req.query.page) ? req.query.page : 0;
+        }
+    }
+
+    let userId = req.jwt.userId;
+    let requestedBooks = await RentModel.getRequestedBooks(userId);
+    let filter = requestedBooks.toJSON();
+    filter._id = filter.requestedBooks;
+    delete filter.requestedBooks; 
+    
+    try {
+        let result =  await BooksModel.list(limit, page, filter)     
+        res.status(200).send(result);
+    } catch(err) {
+        res.status(500).send({ error: err });
+    }
+};
+
+exports.listRented = async (req, res) => {
+    let limit = req.query.limit && req.query.limit <= 100 ? parseInt(req.query.limit) : 10;
+    let page = 0;
+
+    if (req.query) {
+        if (req.query.page) {
+            req.query.page = parseInt(req.query.page);
+            page = Number.isInteger(req.query.page) ? req.query.page : 0;
+        }
+    }
+
+    let userId = req.jwt.userId;
+    let rentedBooks = await RentModel.getRentedBooks(userId);
+    let filter = rentedBooks.toJSON();
+    filter._id = filter.rentedBooks.map(element => { return element.bookId });
+    delete filter.rentedBooks; 
+    
+    try {
+        let result =  await BooksModel.list(limit, page, filter)     
         res.status(200).send(result);
     } catch(err) {
         res.status(500).send({ error: err });

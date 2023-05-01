@@ -50,4 +50,15 @@ exports.routesConfig = function (app) {
         BooksController.delete
     ]);
 
+    // Список забронированных книг
+    app.get('/books/requested/:userId', [
+        ValidationMiddleware.validJWTNeeded,
+        BooksController.listRequested
+    ]);
+
+    // Список взятых книг
+    app.get('/books/rented/:userId', [
+        ValidationMiddleware.validJWTNeeded,
+        BooksController.listRented
+    ]);
 };
