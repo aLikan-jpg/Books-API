@@ -13,9 +13,12 @@ const PAID = config.permissionLevels.PAID_USER;
 const FREE = config.permissionLevels.NORMAL_USER;
 
 exports.routesConfig = function (app) {
-    app.post('/books/rent/:id', [
+    app.post('/rent/:id', [
         // BooksMiddleware.hasAuthValidFields,
         ValidationMiddleware.validJWTNeeded,
         RentsController.rent
+    ]);
+    app.get('/rent/:userId', [
+        // RentsController.findUserRents
     ]);
 };

@@ -43,3 +43,8 @@ exports.update =  (document, rentData) => {
     });
     return updatedRent.save();
 };
+
+exports.findUserRents = (userId) => {
+    
+};
+

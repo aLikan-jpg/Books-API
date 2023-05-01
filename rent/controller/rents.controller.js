@@ -1,5 +1,6 @@
 const RentModel = require('../models/rents.model');
 const BookModel = require('../../booksTest/models/books.model');
+const UserModel = require('../../users/models/users.model');
 const { NIL } = require('uuid');
 var ObjectId = require('mongodb').ObjectId;
 const jwt = require('jsonwebtoken');
@@ -67,7 +68,22 @@ exports.rent = async (req, res) => {
     // try {
     //     let result = await BookModel.rentBook(req.params.userId);
     //     res.status(201).send({id: result._id});
-    // } catch (err) {
+    // } catch (err) { 
     //     res.status(500).send({error: err});
     // }
+};
+
+exports.findUserRents = async (req, res) => {
+    try {
+        let user = await UserModel.findById(req.params.userId);
+
+        if (!user) {
+            res.status(404).send({error: 'User not found'}); 
+        }
+
+        let result = await RentModel.findUserRents(user._id);
+
+    } catch (err) {
+        res.status(500).send({error: err});
+    }
 };
