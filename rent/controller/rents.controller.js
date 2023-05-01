@@ -35,8 +35,29 @@ exports.rent = async (req, res) => {
             if (result.isRent) {
                 res.status(404).send({error: 'Book is already rented'}); 
             } else {
-                //обновить запись
-                res.status(202).send();
+                let authorization = req.headers.authorization.split(' ');
+                if (authorization[0] !== 'Bearer') {
+                    return res.status(401).send();
+                } else {
+                    let userId = jwt.decode(authorization[1]).userId;
+                    //обновить запись
+                    let newRent = {
+                        bookId: book._id,
+                        userId: ObjectId(userId),
+                        isRent: true,
+                        rentalDate: new Date(),
+                        returnDate: null
+                    }
+                    await RentModel.update(result, newRent);
+                    return res.status(200).send(result);
+
+                    // result.bookId = book._id;
+                    // result.userId = ObjectId(userId);
+                    // result.isRent = true;
+                    // result.rentalDate = new Date();
+                    // result.returnDate = null;
+                    // result.save();
+                }
             }
         }
 
