@@ -52,7 +52,7 @@ exports.list = async (req, res) => {
     }
 
     try {
-        let result =  await BooksModel.list(limit, page)     
+        let result =  await BooksModel.list(limit, page);
         res.status(200).send(result);
     } catch(err) {
         res.status(500).send({ error: err });
@@ -61,8 +61,16 @@ exports.list = async (req, res) => {
 
 exports.bookInfo = async (req, res) => {
     try {
-        let result = await BooksModel.bookInfo(req.params.bookId)
-        res.status(200).send(result);
+        let bookId = req.params.bookId;
+        let book = await BooksModel.bookInfo(bookId)
+        let isReserved = await RentModel.checkReserveExists(bookId);
+        let expirationDate = await RentModel.checkRentExists(bookId);
+
+        book = book.toJSON();
+        book.isReserved = isReserved;
+        book.expirationDate = expirationDate;
+        
+        res.status(200).send(book);
     } catch(err) {
         res.status(500).send({ error: err });
     }

@@ -25,16 +25,30 @@ const Rent = mongoose.model('Rents', rentSchema);
 
 exports.checkReserveExists = async (bookId) => {
     let result = await Rent.findOne({ requestedBooks: bookId });
-    return (result);
+    
+    if (result) {
+        return true;
+    } else {
+        return false;
+    }
 };
 
 exports.checkRentExists = async (bookId) => {
-    let result = await Rent.findOne({
-        'rentedBooks.bookId': bookId,
-        'rentedBooks.expirationDate': { $gt: new Date() }
-    });
-
-    return (result);
+    let result = await Rent.findOne(
+        {
+            'rentedBooks.bookId': bookId,
+            'rentedBooks.expirationDate': { $gt: new Date() }
+        },
+        {
+            rentedBooks: { $elemMatch: { bookId: bookId } }
+        }
+    );
+    
+    if (result) {
+        return result.rentedBooks[0].expirationDate;
+    } else {
+        return null;
+    }    
 }
 
 exports.reserve = async (userId, bookId) => {
