@@ -3,7 +3,6 @@ const config = require('./common/config/env.config.js');
 const express = require('express');
 const app = express();
 
-const BookModel = require('./books/books.models');
 const AuthorizationRouter = require('./authorization/routes.config');
 const UsersRouter = require('./users/routes.config');
 const BooksRouter = require('./books/routes.config')

@@ -1,4 +1,4 @@
-const BooksController = require('./books.controller');
+const BooksController = require('./controllers/books.controller');
 const PermissionMiddleware = require('../common/middlewares/auth.permission.middleware');
 const ValidationMiddleware = require('../common/middlewares/auth.validation.middleware');
 
@@ -8,31 +8,46 @@ const ADMIN = config.permissionLevels.ADMIN;
 const PAID = config.permissionLevels.PAID_USER;
 const FREE = config.permissionLevels.NORMAL_USER;
 
-
-
 exports.routesConfig = function (app) {
-    //добавление книги в БД
+    
+    // Добавление книги в БД
     app.post('/books', [
+        ValidationMiddleware.validJWTNeeded,
+        PermissionMiddleware.minimumPermissionLevelRequired(ADMIN),
         BooksController.insert
     ]);
-    //получение полного списка книг
+
+    // Получение полного списка книг
     app.get('/books', [
         ValidationMiddleware.validJWTNeeded,
-        PermissionMiddleware.minimumPermissionLevelRequired(PAID),
         BooksController.list
     ]);
+
+    // Получение детальной информации по книге
     app.get('/books/:bookId', [
-        // ValidationMiddleware.validJWTNeeded,
-        BooksController.getById
+        ValidationMiddleware.validJWTNeeded,
+        BooksController.bookInfo
     ]);
+
+    // Добавление книги
+    app.post('/books/', [
+        ValidationMiddleware.validJWTNeeded,
+        PermissionMiddleware.minimumPermissionLevelRequired(ADMIN),
+        BooksController.insert
+    ]);
+
+    // Изменение информации по книге
     app.patch('/books/:bookId', [
- 
+        ValidationMiddleware.validJWTNeeded,
+        PermissionMiddleware.minimumPermissionLevelRequired(ADMIN),
+        BooksController.edit
     ]);
+
+    // Удаление книги
     app.delete('/books/:bookId', [
-
+        ValidationMiddleware.validJWTNeeded,
+        PermissionMiddleware.minimumPermissionLevelRequired(ADMIN),
+        BooksController.delete
     ]);
-    //Запрос должен содержать данные пользователя, который хочет взять книгу в аренду. Возвращает: подтверждение аренды книги.
-    app.post('/books/{id}/rent', [
 
-    ]);
 };

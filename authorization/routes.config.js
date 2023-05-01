@@ -15,4 +15,5 @@ exports.routesConfig = function (app) {
         AuthValidationMiddleware.validRefreshNeeded,
         AuthorizationController.login
     ]);
+
 };
