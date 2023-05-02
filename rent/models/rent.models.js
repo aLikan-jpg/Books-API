@@ -100,3 +100,23 @@ exports.getRentedBooks = (userId) => {
         { 'rentedBooks': 1, _id: 0 }
     ); 
 } 
+
+exports.cancelRequest = (userId, bookId) => {
+    return Rent.findOneAndUpdate(
+        { userId: userId, requestedBooks: bookId },
+        {
+            $pull: { requestedBooks: bookId }
+        },
+        { new: true }
+    );
+}
+
+exports.cancelRent = (userId, bookId) => {
+    return Rent.findOneAndUpdate(
+        { userId: userId },
+        {
+            $pull: { rentedBooks: { bookId: bookId } }
+        },
+        { new: true }
+    );
+}
