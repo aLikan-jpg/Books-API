@@ -63,14 +63,20 @@ exports.bookInfo = async (req, res) => {
     try {
         let bookId = req.params.bookId;
         let book = await BooksModel.bookInfo(bookId)
-        let isReserved = await RentModel.checkReserveExists(bookId);
-        let expirationDate = await RentModel.checkRentExists(bookId);
 
-        book = book.toJSON();
-        book.isReserved = isReserved;
-        book.expirationDate = expirationDate;
-        
-        res.status(200).send(book);
+        if (book) {
+            let isReserved = await RentModel.checkReserveExists(bookId);
+            let expirationDate = await RentModel.checkRentExists(bookId);
+            
+            book = book.toJSON();
+            
+            book.isReserved = isReserved;
+            book.expirationDate = expirationDate;
+            
+            res.status(200).send(book);
+        } else {
+            res.status(404).send();
+        }
     } catch(err) {
         res.status(500).send({ error: err });
     }
