@@ -103,7 +103,7 @@ exports.getRentedBooks = (userId) => {
 
 exports.cancelRequest = (userId, bookId) => {
     return Rent.findOneAndUpdate(
-        { userId: userId, requestedBooks: bookId },
+        { userId: userId },
         {
             $pull: { requestedBooks: bookId }
         },
