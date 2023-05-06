@@ -71,21 +71,6 @@ exports.rent = async (req, res) => {
 }
 
 exports.cancelRequested = async (req, res) => {
-    // let userId = req.jwt.userId;
-    // let bookId = req.params.bookId;
-    // let book = await BooksModel.bookInfo(bookId)
-
-    // if (book) {
-    //     let isReserved = await RentModel.checkReserveExists(bookId);
-    //     if (isReserved) {
-    //         let result = await RentModel.cancelRequest(userId, bookId);
-    //         res.status(200).send(result);
-    //     } else {
-    //         res.status(404).send();
-    //     }
-    // } else {
-    //     res.status(404).send();
-    // }
     try {
         let userId = req.jwt.userId;
         let bookId = req.params.bookId;

@@ -51,15 +51,21 @@ exports.routesConfig = function (app) {
     ]);
 
     // Список забронированных книг
-    app.get('/books/requested/:userId', [
+    app.get('/requestedBooks', [
         ValidationMiddleware.validJWTNeeded,
         BooksController.listRequested
     ]);
 
     // Список взятых книг
-    app.get('/books/rented/:userId', [
+    app.get('/rentedBooks', [
         ValidationMiddleware.validJWTNeeded,
         BooksController.listRented
+    ]);
+
+    // Список прочитанных книг
+    app.get('/returnedBooks', [
+        ValidationMiddleware.validJWTNeeded,
+        BooksController.listReturned
     ]);
 }; 
 

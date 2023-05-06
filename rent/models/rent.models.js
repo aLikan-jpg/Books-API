@@ -18,6 +18,9 @@ const rentSchema = new Schema({
             startDate: Date,
             expirationDate: Date
         }]
+    },
+    returnedBooks: {
+        type: [Schema.Types.ObjectId]
     }
 });
 
@@ -101,6 +104,13 @@ exports.getRentedBooks = (userId) => {
     ); 
 } 
 
+exports.getReturnedBooks = (userId) => {
+    return Rent.findOne(
+        { userId: userId },
+        { returnedBooks: 1, _id: 0 }
+    );
+}
+
 exports.cancelRequest = (userId, bookId) => {
     return Rent.findOneAndUpdate(
         { userId: userId },
@@ -115,7 +125,8 @@ exports.cancelRent = (userId, bookId) => {
     return Rent.findOneAndUpdate(
         { userId: userId },
         {
-            $pull: { rentedBooks: { bookId: bookId } }
+            $pull: { rentedBooks: { bookId: bookId } },
+            $push: { returnedBooks: bookId  }
         },
         { new: true }
     );
