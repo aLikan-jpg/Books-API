@@ -61,4 +61,5 @@ exports.routesConfig = function (app) {
         ValidationMiddleware.validJWTNeeded,
         BooksController.listRented
     ]);
-};
+}; 
+
