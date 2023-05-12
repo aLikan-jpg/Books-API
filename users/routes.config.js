@@ -19,7 +19,7 @@ exports.routesConfig = function (app) {
         UsersController.list
     ]);
 
-    app.get('/users/:userId', [
+    app.get('/userInfo', [
         ValidationMiddleware.validJWTNeeded,
         PermissionMiddleware.minimumPermissionLevelRequired(FREE),
         PermissionMiddleware.onlySameUserOrAdminCanDoThisAction,

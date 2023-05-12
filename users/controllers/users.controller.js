@@ -28,12 +28,11 @@ exports.list = (req, res) => {
         })
 };
 
-exports.getById = (req, res) => {
-    UserModel.findById(req.params.userId)
-        .then((result) => {
-            res.status(200).send(result);
-        });
+exports.getById = async (req, res) => {
+    let result = await UserModel.findById(req.jwt.userId)
+    res.status(200).send(result);
 };
+
 exports.patchById = (req, res) => {
     if (req.body.password) {
         let salt = crypto.randomBytes(16).toString('base64');
