@@ -61,7 +61,7 @@ exports.list = async (req, res) => {
 
 exports.bookInfo = async (req, res) => {
     try {
-        let bookId = req.params.bookId;
+        let bookId = req.query.bookId;
         let book = await BooksModel.bookInfo(bookId)
 
         if (book) {

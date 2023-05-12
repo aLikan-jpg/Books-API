@@ -24,13 +24,13 @@ exports.routesConfig = function (app) {
     ]);
 
     // Получение детальной информации по книге
-    app.get('/books/:bookId', [
+    app.get('/books/details', [
         ValidationMiddleware.validJWTNeeded,
         BooksController.bookInfo
     ]);
 
     // Добавление книги
-    app.post('/books/', [
+    app.post('/books', [
         ValidationMiddleware.validJWTNeeded,
         PermissionMiddleware.minimumPermissionLevelRequired(ADMIN),
         BooksController.insert
