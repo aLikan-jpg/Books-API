@@ -4,7 +4,7 @@ const RentModel = require('../models/rent.models');
 exports.reserve = async (req, res) => {
     try {
         let userId = req.jwt.userId;
-        let bookId = req.params.bookId;
+        let bookId = req.query.bookId;
 
         let bookExists = await BooksModel.bookInfo(bookId);
 
@@ -73,7 +73,7 @@ exports.rent = async (req, res) => {
 exports.cancelRequested = async (req, res) => {
     try {
         let userId = req.jwt.userId;
-        let bookId = req.params.bookId;
+        let bookId = req.query.bookId;
 
         let bookExists = await BooksModel.bookInfo(bookId);
 
@@ -105,7 +105,7 @@ exports.cancelRequested = async (req, res) => {
 exports.cancelRented = async (req, res) => {
     try {
         let userId = req.jwt.userId;
-        let bookId = req.params.bookId;
+        let bookId = req.query.bookId;
 
         let bookExists = await BooksModel.bookInfo(bookId);
 

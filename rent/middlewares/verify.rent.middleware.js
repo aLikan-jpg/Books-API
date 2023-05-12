@@ -1,7 +1,7 @@
 const CommonValidationMiddleware = require('../../common/middlewares/common.validation.middleware');
 
 exports.isBookIdValid = (req, res, next) => {
-    const bookId = req.params.bookId;
+    const bookId = req.query.bookId;
 
     if (CommonValidationMiddleware.isHexString(bookId)) {
         return next();

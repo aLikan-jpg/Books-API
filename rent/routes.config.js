@@ -9,9 +9,9 @@ const ADMIN = config.permissionLevels.ADMIN;
 exports.routesConfig = function (app) {
     
     // Бронирование книги
-    app.post('/reserve/:bookId', [
+    app.get('/reserve', [
         ValidationMiddleware.validJWTNeeded,
-        PermissionMiddleware.onlySameUserOrAdminCanDoThisAction,
+        // PermissionMiddleware.onlySameUserOrAdminCanDoThisAction,
         RentController.reserve
     ]);
 
@@ -23,14 +23,14 @@ exports.routesConfig = function (app) {
     ]);
 
     // Отмена бронирования книги
-    app.post('/cancelRequest/:bookId', [
+    app.get('/cancelRequest', [
         ValidationMiddleware.validJWTNeeded,
         RentMiddleware.isBookIdValid,
         RentController.cancelRequested
     ]);
 
     // Возврат книги
-    app.post('/cancelRent/:bookId', [
+    app.get('/cancelRent', [
         ValidationMiddleware.validJWTNeeded,
         RentMiddleware.isBookIdValid,
         RentController.cancelRented

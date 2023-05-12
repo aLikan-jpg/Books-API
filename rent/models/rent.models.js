@@ -100,7 +100,7 @@ exports.getRentedBooks = (userId) => {
             userId: userId,
             'rentedBooks.expirationDate': { $gt: new Date() }
         },
-        { 'rentedBooks': 1, _id: 0 }
+        { rentedBooks: 1, _id: 0 }
     ); 
 } 
 
