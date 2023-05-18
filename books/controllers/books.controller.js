@@ -121,17 +121,12 @@ exports.listRented = async (req, res) => {
     let userId = req.jwt.userId;
     let rentedBooks = await RentModel.getRentedBooks(userId);
 
-    //Если rentedBooks пустой (null), то в filter кладется структура с пустым массивом (Обходим exeption cannot read null) 
     let filter = { rentedBooks: [] };
     if (rentedBooks !== null) {
         filter = rentedBooks.toJSON();
         filter._id = filter.rentedBooks.map(element => { return element.bookId });
         delete filter.rentedBooks; 
     }
-    // filter = rentedBooks.toJSON();
-    // filter._id = filter.rentedBooks.map(element => { return element.bookId });
-    // delete filter.rentedBooks; 
-    
     try {
         let result =  await BooksModel.list(limit, page, filter);     
         res.status(200).send(result);

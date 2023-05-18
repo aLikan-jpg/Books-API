@@ -18,7 +18,8 @@ exports.routesConfig = function (app) {
         PermissionMiddleware.minimumPermissionLevelRequired(PAID),
         UsersController.list
     ]);
-
+    
+    //Получение информации о пользователе
     app.get('/userInfo', [
         ValidationMiddleware.validJWTNeeded,
         PermissionMiddleware.minimumPermissionLevelRequired(FREE),

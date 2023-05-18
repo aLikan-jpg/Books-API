@@ -42,7 +42,7 @@ exports.reserve = async (req, res) => {
 exports.rent = async (req, res) => {
     try {
         let userId = req.jwt.userId;
-        let bookId = req.params.bookId;
+        let bookId = req.query.bookId;
 
         let bookExists = await BooksModel.bookInfo(bookId);
 
@@ -68,7 +68,7 @@ exports.rent = async (req, res) => {
     } catch(err) {
         res.status(500).send({ error: err });
     }
-}
+};
 
 exports.cancelRequested = async (req, res) => {
     try {

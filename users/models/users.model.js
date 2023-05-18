@@ -18,12 +18,11 @@ userSchema.set('toJSON', {
     virtuals: true
 });
 
+const User = mongoose.model('Users', userSchema);
+
 userSchema.findById = function (cb) {
     return this.model('Users').find({id: this.id}, cb);
 };
-
-const User = mongoose.model('Users', userSchema);
-
 
 exports.findByEmail = (email) => {
     return User.find({email: email});

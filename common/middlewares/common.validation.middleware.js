@@ -8,3 +8,7 @@ exports.isHexString = (x) => {
     let regex = /^[0-9A-Fa-f]{24}$/g;
     return x.match(regex);
 };
+
+
+
+

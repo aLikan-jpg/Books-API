@@ -16,7 +16,7 @@ exports.routesConfig = function (app) {
     ]);
 
     // Аренда книги
-    app.post('/rent/:bookId', [
+    app.get('/rent', [
         ValidationMiddleware.validJWTNeeded,
         PermissionMiddleware.minimumPermissionLevelRequired(ADMIN),
         RentController.rent
@@ -35,5 +35,6 @@ exports.routesConfig = function (app) {
         RentMiddleware.isBookIdValid,
         RentController.cancelRented
     ]);
-
 };
+
+
