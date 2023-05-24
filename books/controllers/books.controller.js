@@ -95,10 +95,14 @@ exports.listRequested = async (req, res) => {
 
     let userId = req.jwt.userId;
     let requestedBooks = await RentModel.getRequestedBooks(userId);
-    let filter = requestedBooks.toJSON();
-    filter._id = filter.requestedBooks;
-    delete filter.requestedBooks; 
-    
+    if (requestedBooks !== null) {
+        filter = requestedBooks.toJSON();
+        filter._id = filter.requestedBooks;
+        delete filter.requestedBooks; 
+      }
+    // let filter = requestedBooks.toJSON();
+    // filter._id = filter.requestedBooks;
+    // delete filter.requestedBooks; 
     try {
         let result =  await BooksModel.list(limit, page, filter)     
         res.status(200).send(result);

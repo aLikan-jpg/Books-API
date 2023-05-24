@@ -2,12 +2,16 @@ const mongoose = require('../../common/services/mongoose.service').mongoose;
 const Schema = mongoose.Schema;
 
 const booksSchema = new Schema( { 
-    name : String,
-    author : String,
-    language : String,
-    description : String,
-    status : String,
-    image : String
+    name: String,
+    author: String,
+    language: String,
+    description: String,
+    status: Boolean,
+    image: String,
+    pages: String,
+    year: String,
+    rate: String,
+    tags: [String]
 });
 
 booksSchema.virtual('ids').get(function () {
