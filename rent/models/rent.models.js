@@ -12,7 +12,7 @@ const rentSchema = new Schema({
     requestedBooks: {
         type: [Schema.Types.ObjectId]
     },
-    rentedBooks :{
+    rentedBooks: {
         type: [{
             bookId: Schema.Types.ObjectId,
             startDate: Date,

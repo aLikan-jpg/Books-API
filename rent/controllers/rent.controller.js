@@ -58,6 +58,15 @@ exports.rent = async (req, res) => {
             return;
         }
 
+    // реализация метода проверки сущ.аренды (в резерве тоже)
+    // если есть аренда, то мы выводим в алерт, что книга в броне
+        let rentExists = await RentModel.checkRentExists(bookId);
+
+        if (rentExists) {
+            res.status(400).send({ error: 'Book is already rented!' });
+            return;
+        }
+
         let result = await RentModel.rent(userId, bookId);
         
         if (result) {
